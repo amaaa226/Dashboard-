@@ -388,8 +388,9 @@ const judulBulan = document.getElementById("judul-bulan");
 
 const mappingDept = {
     "Production Plant 1 Division": [
-        { value: "manufacturing", text: "Departement Manufacturing" },                           
-        { value: "ppc", text: "Departement Production Planning & Control" }],
+        { value: "manufacturing", text: "Departement Manufacturing" },
+        { value: "ppc", text: "Departement Production Planning & Control" }
+    ],
     "Corporate Supply Chain Management Division": [{ value: "inventory", text: "Departement Inventory & Warehouse Management" }],
     "Corporate Quality Division": [{ value: "quality", text: "Departement Quality Control" }],
     "Corporate Engineering Division": [{ value: "engineering", text: "Departement Production Engineering" }],
