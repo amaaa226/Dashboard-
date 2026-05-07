@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <h2>Dashboard</h2>
+
+        <div class="filters">
+            <select id="bulan">
+                <option>April 2026</option>
+                <option>Mei 2026</option>
+                <option>Juni 2026</option>
+                <option>Juli 2026</option>
+                <option>Agustus 2026</option>
+            </select>
+
+            <select id="divisi">
+                <option>All Divisi</option>
+                <option>Production Plant 1 Division</option>
+                <option>Corporate Supply Chain Management Division</option>
+                <option>Corporate Quality Division</option>
+                <option>Corporate Engineering Division</option>
+                <option>Corporate Research & Development Division</option>
+            </select>
+
+            <select id="deptSelect">
+                <option value="all">All Department</option>
+                <option value="manufacturing">Departement Manufacturing</option>
+                <option value="inventory">Departement Inventoryt & Warehouse Managemen</option>
+                <option value="quality">Departement Quality Control</option>
+                <option value="engineering">Departement Production Enguneering</option>
+                <option value="prototype">Departement Prototype & Testing</option>
+                <option value="corporate">Departement Corporate Product Research & Development Enginepartment</option>
+                <option value="ppc">Departement Production Planing & Controle</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- DASHBOARD UTAMA -->
+    <div id="view-home" class="view active">
+        <div id="headerInfo">
+            <h2 id="judulDept"></h2>
+            <h3>Total Achievement</h3>
+
+            <div id="homeSummary"></div>
+
+            <div style="position: relative; height: 60px; display:flex; justify-content:center; align-items:center;">
+                <h2 id="judul-bulan"></h2>
+            </div>
+        </div>
+
+        <div id="chartbox" style="height: 310vh; overflow-y: auto; overflow-x: hidden; background: #1e293b;">
+            <canvas id="chart-all"></canvas>
+        </div>
+    </div>
+
+    <div id="jsa-container" style="text-align: center; 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            padding: 30px; 
+            margin: 20px auto; 
+            border-radius: 15px; 
+            max-width: 400px;
+            display: none;
+            transition: all 0.3s ease;">
+
+        <h3 style="color: rgba(255,255,255,0.8); 
+               margin-bottom: 15px; 
+               font-size: 14px; 
+               letter-spacing: 2px; 
+               text-transform: uppercase;
+               font-weight: 600;">
+            TOTAL ACHIEVEMENT JSA
+        </h3>
+
+        <div id="total-jsa-value" style="font-size: 64px; 
+                font-weight: 800; 
+                color: #fbbf24; 
+                text-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+                line-height: 1;">
+            0%
+        </div>
+
+        <!-- Progress Bar Kecil di bawah angka -->
+        <div
+            style="width: 100%; background: rgba(255,255,255,0.1); height: 6px; border-radius: 10px; margin-top: 20px; overflow: hidden;">
+            <div id="jsa-progress-bar"
+                style="width: 0%; height: 100%; background: #fbbf24; transition: width 1s ease-in-out;"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+    <script src="main.js"></script>
+
+</body>
+
+</html>
