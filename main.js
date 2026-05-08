@@ -87,7 +87,9 @@ const database = {
         { nama: "Arif Purnomo", persen: "" }, { nama: "Tri Harso", persen: "" },
         { nama: "Indra Gunawan", persen: 5 }, { nama: "Maldani", persen: 6 },
         { nama: "Widhayat", persen: 10 }, { nama: "Seno Setiawan", persen: 22 },
-        { nama: "Nikola Arya Wiratama", persen: 6 }, { nama: "Mohammad Ridwan", persen: "" },
+        { nama: "Nikola Arya Wiratama", persen: 6 }, { nama: "Nurul Ma’rufi", persen: 6 }
+    ],
+    inventory: [
         { nama: "Mochammad Sutopo", persen: "" }, { nama: "Rifi Prasetyo", persen: "" },
         { nama: "Andi Rustandi", persen: 3 }, { nama: "Reza Sigit Arishandy", persen: 13 },
         { nama: "Kaharto", persen: 20 }, { nama: "Muhammad Zein", persen: "" },
@@ -95,17 +97,6 @@ const database = {
         { nama: "Risdiyanto", persen: 16 }, { nama: "Ruli Hermawan", persen: "" },
         { nama: "Sudiono", persen: "" }, { nama: "Sunardi", persen: "" },
         { nama: "Asep Abdus Salam", persen: "" }, { nama: "Teguh Tri Winarno", persen: 19 },
-        { nama: "Maula Ubaidillah", persen: "" }, { nama: "Raka Diva", persen: "" },
-        { nama: "Timbul Prasetyo", persen: 11 }, { nama: "Nurul Ma’rufi", persen: 6 }
-    ],
-    inventory: [
-        { nama: "Mochammad Sutopo", persen: "" }, { nama: "Rifi Prasetyo", persen: "" },
-        { nama: "Andi Rustandi", persen: "" }, { nama: "Reza Sigit Arishandy", persen: 13 },
-        { nama: "Kaharto", persen: "" }, { nama: "Muhammad Zein", persen: "" },
-        { nama: "Mochamad Ridwan", persen: "" }, { nama: "Priyanto", persen: "" },
-        { nama: "Risdiyanto", persen: "" }, { nama: "Ruli Hermawan", persen: "" },
-        { nama: "Sudiono", persen: "" }, { nama: "Sunardi", persen: "" },
-        { nama: "Asep Abdus Salam", persen: "" }, { nama: "Teguh Tri Winarno", persen: "" },
         { nama: "Maula Ubaidillah", persen: "" }, { nama: "Raka Diva", persen: "" },
         { nama: "Timbul Prasetyo", persen: 11 }
     ],
@@ -239,7 +230,7 @@ function renderPerDept() {
     });
 
     const canvas = document.getElementById("chart-all");
-    canvas.parentElement.style.height = "310vh";
+    canvas.parentElement.style.height = "50vh";
     canvas.style.height = "100%";
 
     if (chartAll) chartAll.destroy();
@@ -309,6 +300,7 @@ function renderAll(dept = "all") {
 
     const canvas = document.getElementById("chart-all");
     const rowHeight = 70;
+    canvas.parentElement.style.height = "310vh";
     const totalHeight = Math.max(labels.length * rowHeight, 500);
     canvas.style.height = totalHeight + "px";
 
