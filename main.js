@@ -154,25 +154,6 @@ const database = {
         { nama: "Prita Aulia", persen: "" }, { nama: "Wina Kartika", persen: "" },
         { nama: "Will Yanto Syam", persen: "" }
     ]
-    ],
-    corporate: [
-        { nama: "Asep Muhtar", persen: "" }, { nama: "Ade Indra Wijaya", persen: "" },
-        { nama: "Adzana Ihsan Sukardi", persen: "" }, { nama: "Derivata Nikko Ardana", persen: "" },
-        { nama: "Akbar Kresna Subagyo", persen: "" }, { nama: "Aditya Alamsyah", persen: "" },
-        { nama: "Muhammad Fakhri Alfath", persen: "" }, { nama: "Giovanni Satria Baiqunie", persen: "" },
-        { nama: "Nabil Al-Fatih Anibbras Nugroho", persen: "" }, { nama: "Iqbal Rizqulloh", persen: "" },
-        { nama: "Muhammad Luthfan Taris", persen: "" }, { nama: "Vanesha Wijaya", persen: "" },
-        { nama: "Shidqanoru Limar Hanif", persen: "" }, { nama: "Cahyo Prakoso Wishnu Khrisna Moerty", persen: "" },
-        { nama: "Reiko Sarah Pradita", persen: "" }, { nama: "Hendra Marzola", persen: "" },
-        { nama: "Vania Zahra Amalia Putri", persen: "" }, { nama: "Bening Matahari", persen: "" },
-        { nama: "Horas Tiopan Sanjaya", persen: "" }, { nama: "Sandro Nur Rezki", persen: "" },
-        { nama: "Haasyir Ibrahim", persen: "" }
-    ],
-    ppc: [
-        { nama: "Mohammad Alfin Karim", persen: "" }, { nama: "Muhammad Rifqi Shodiqin", persen: "" },
-        { nama: "Prita Aulia", persen: "" }, { nama: "Wina Kartika", persen: "" },
-        { nama: "Will Yanto Syam", persen: "" }
-    ]
 };
 
 let chartAll;
