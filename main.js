@@ -269,7 +269,10 @@ function renderPerDept() {
                     font: { weight: 'bold' },
                     formatter: (v) => {
                         if (!v) return "";
-                        return v ? v + "%" : "";
+
+                        const persen = Math.min(Math.round((v / 22) * 100), 100);
+
+                        return `${v}d (${persen}%)`;
                     }
                 }
             }
@@ -343,7 +346,10 @@ function renderAll(dept = "all") {
                     },
                     formatter: (v) => {
                         if (!v) return "";
-                        return `${v}d (${Math.round((v / 22) * 100)}%)`;
+
+                        const persen = Math.min(Math.round((v / 22) * 100), 100);
+
+                        return `${v}d (${persen}%)`;
                     }
                 },
                 annotation: {
