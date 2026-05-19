@@ -53,7 +53,7 @@ const database = {
         { nama: "Tri Sutrisna", persen: 7 }, { nama: "Rizki Pratama", persen: 7 },
         { nama: "Yasodik", persen: 10 }, { nama: "Nanang Sukana", persen: 9 },
         { nama: "Suratmo", persen: 7 }, { nama: "Pratono", persen: 10 },
-        { nama: "Didin Jamjudin", persen: 8  }, { nama: "Rochmadi", persen: 10 },
+        { nama: "Didin Jamjudin", persen: 8 }, { nama: "Rochmadi", persen: 10 },
         { nama: "Warokhim", persen: 10 }, { nama: "Noval Andika Bayo", persen: 7 },
         { nama: "Andri Darmanto", persen: 5 }, { nama: "Andi Romiadi", persen: 3 },
         { nama: "Juwarso", persen: 5 }, { nama: "Hendriansyah", persen: "" },
@@ -217,19 +217,25 @@ function renderPerDept() {
 
     let allValues = [];
     keys.forEach(k => database[k].forEach(i => allValues.push(i.persen)));
-    updateSummary(allValues);
 
+    updateSummary(allValues);
     updateTotalAchievementJSA();
 
+    // HITUNG PERSENTASE YANG SUDAH ISI
     const dataAvg = keys.map(key => {
-        const vals = database[key]
-            .filter(i => i.persen !== "")
-            .map(i => (Number(i.persen) / 22) * 100);
+        const totalOrang = database[key].length;
 
-        return vals.length ? Math.round(vals.reduce((a, b) => a + b) / vals.length) : 0;
+        const sudahIsi = database[key]
+            .filter(i => i.persen !== "")
+            .length;
+
+        return totalOrang
+            ? Math.round((sudahIsi / totalOrang) * 100)
+            : 0;
     });
 
     const canvas = document.getElementById("chart-all");
+
     canvas.parentElement.style.height = "50vh";
     canvas.style.height = "100%";
 
@@ -241,38 +247,66 @@ function renderPerDept() {
             labels: labels,
             datasets: [{
                 data: dataAvg,
-                backgroundColor: dataAvg.map(v => v < 100 ? "#ef4444" : "#22c55e"),
+                backgroundColor: dataAvg.map(v =>
+                    v < 100 ? "#ef4444" : "#22c55e"
+                ),
                 borderRadius: 5
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+
             scales: {
                 y: {
                     beginAtZero: true,
                     max: 100,
+
                     ticks: {
                         color: "white",
                         callback: (v) => v + "%"
                     },
-                    grid: { color: "rgba(255,255,255,0.1)" }
+
+                    grid: {
+                        color: "rgba(255,255,255,0.1)"
+                    }
                 },
-                x: { ticks: { color: "white", maxRotation: 0, minRotation: 0, autoSkip: false, font: { size: 10 } }, grid: { display: false } }
+
+                x: {
+                    ticks: {
+                        color: "white",
+                        maxRotation: 0,
+                        minRotation: 0,
+                        autoSkip: false,
+                        font: { size: 10 }
+                    },
+
+                    grid: { display: false }
+                }
             },
+
             plugins: {
                 legend: { display: false },
+
                 datalabels: {
                     anchor: 'end',
                     align: 'top',
                     color: 'white',
-                    font: { weight: 'bold' },
-                    formatter: (v) => {
-                        if (!v) return "";
 
-                        const persen = Math.min(Math.round((v / 22) * 100), 100);
+                    font: {
+                        weight: 'bold'
+                    },
 
-                        return `${v}d (${persen}%)`;
+                    formatter: (v, ctx) => {
+                        const key = keys[ctx.dataIndex];
+
+                        const totalOrang = database[key].length;
+
+                        const sudahIsi = database[key]
+                            .filter(i => i.persen !== "")
+                            .length;
+
+                        return `${sudahIsi}/${totalOrang} (${v}%)`;
                     }
                 }
             }
@@ -283,18 +317,41 @@ function renderPerDept() {
 // ================= RENDER DETAIL (HORIZONTAL) =================
 function renderAll(dept = "all") {
     const jsaContainer = document.getElementById("jsa-container");
+    const searchContainer = document.getElementById("searchContainer");
 
+    // ===== VIEW UTAMA =====
     if (dept === "all" || dept === "") {
+
+        // sembunyikan search
+        searchContainer.style.display = "none";
+
+        // tampilkan JSA
+        if (jsaContainer) jsaContainer.style.display = "block";
+
         renderPerDept();
         return;
     }
 
+    // ===== VIEW DEPARTMENT =====
+
+    // tampilkan search
+    searchContainer.style.display = "flex";
+
+    // sembunyikan JSA
     if (jsaContainer) jsaContainer.style.display = "none";
 
-    let dataGabung = database[dept].map(item => ({
-        nama: item.nama,
-        persen: (item.persen === "" || item.persen === null) ? null : Number(item.persen)
-    }));
+    let keyword = document.getElementById("searchInput").value.toLowerCase();
+
+    let dataGabung = database[dept]
+        .filter(item =>
+            item.nama.toLowerCase().includes(keyword)
+        )
+        .map(item => ({
+            nama: item.nama,
+            persen: (item.persen === "" || item.persen === null)
+                ? null
+                : Number(item.persen)
+        }));
 
     updateSummary(dataGabung.map(d => d.persen));
 
@@ -303,7 +360,9 @@ function renderAll(dept = "all") {
 
     const canvas = document.getElementById("chart-all");
     const rowHeight = 70;
+
     canvas.parentElement.style.height = "310vh";
+
     const totalHeight = Math.max(labels.length * rowHeight, 500);
     canvas.style.height = totalHeight + "px";
 
@@ -328,36 +387,86 @@ function renderAll(dept = "all") {
             responsive: true,
             maintainAspectRatio: false,
             layout: { padding: { top: 60, right: 50 } },
+
             scales: {
-                x: { position: 'top', min: 0, max: 31, ticks: { color: "white", stepSize: 1 }, grid: { color: "rgba(255,255,255,0.1)" } },
-                y: { ticks: { color: "white", autoSkip: false, font: { size: 10 } }, grid: { display: false } }
+                x: {
+                    position: 'top',
+                    min: 1,
+                    max: 31,
+                    ticks: {
+                        color: "white",
+                        stepSize: 1
+                    },
+                    grid: {
+                        color: "rgba(255,255,255,0.1)"
+                    }
+                },
+
+                y: {
+                    ticks: {
+                        color: "white",
+                        autoSkip: false,
+                        font: { size: 10 }
+                    },
+                    grid: { display: false }
+                }
             },
+
             plugins: {
                 legend: { display: false },
+
                 datalabels: {
-                    color: "white", anchor: "end", align: "right",
-                    font: { weight: 'bold', size: 12 },
-                    layout: {
-                        padding: {
-                            left: 20,
-                            top: 60,
-                            right: 50
-                        }
+                    color: "white",
+                    anchor: "end",
+                    align: "right",
+
+                    font: {
+                        weight: 'bold',
+                        size: 12
                     },
+
                     formatter: (v) => {
                         if (!v) return "";
 
-                        const persen = Math.min(Math.round((v / 22) * 100), 100);
+                        const persen = Math.min(
+                            Math.round((v / 22) * 100),
+                            100
+                        );
 
                         return `${v}d (${persen}%)`;
                     }
                 },
+
                 annotation: {
                     annotations: {
-                        l1: { type: 'line', xMin: 4, xMax: 4, borderColor: 'rgba(255,255,0,0.2)', borderDash: [4, 4] },
-                        l2: { type: 'line', xMin: 11, xMax: 11, borderColor: 'rgba(255,255,0,0.2)', borderDash: [4, 4] },
-                        l3: { type: 'line', xMin: 18, xMax: 18, borderColor: 'rgba(255,255,0,0.2)', borderDash: [4, 4] },
-                        l4: { type: 'line', xMin: 25, xMax: 25, borderColor: 'rgba(255,255,0,0.2)', borderDash: [4, 4] }
+                        l1: {
+                            type: 'line',
+                            xMin: 4,
+                            xMax: 4,
+                            borderColor: 'rgba(255,255,0,0.2)',
+                            borderDash: [4, 4]
+                        },
+                        l2: {
+                            type: 'line',
+                            xMin: 11,
+                            xMax: 11,
+                            borderColor: 'rgba(255,255,0,0.2)',
+                            borderDash: [4, 4]
+                        },
+                        l3: {
+                            type: 'line',
+                            xMin: 18,
+                            xMax: 18,
+                            borderColor: 'rgba(255,255,0,0.2)',
+                            borderDash: [4, 4]
+                        },
+                        l4: {
+                            type: 'line',
+                            xMin: 25,
+                            xMax: 25,
+                            borderColor: 'rgba(255,255,0,0.2)',
+                            borderDash: [4, 4]
+                        }
                     }
                 }
             }
@@ -412,8 +521,20 @@ divisiSelect.addEventListener("change", function () {
 });
 
 deptSelect.addEventListener("change", function () {
+
+    // reset search
+    document.getElementById("searchInput").value = "";
+
     renderAll(this.value);
     updateJudul();
+});
+
+document.getElementById("searchInput").addEventListener("input", function () {
+    const dept = deptSelect.value;
+
+    if (dept !== "all") {
+        renderAll(dept);
+    }
 });
 
 bulanSelect.addEventListener("change", function () {
@@ -433,37 +554,39 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function updateTotalAchievementJSA() {
-    let totalPersen = 0;
-    let totalCount = 0;
+
+    let totalSemuaOrang = 0;
+    let totalSudahIsi = 0;
+
     const keys = Object.keys(database);
 
     keys.forEach(key => {
+
+        totalSemuaOrang += database[key].length;
+
         database[key].forEach(item => {
+
             if (item.persen !== "" && item.persen !== null) {
-                let persenOrang = (Number(item.persen) / 22) * 100;
-                totalPersen += persenOrang;
-                totalCount++;
+                totalSudahIsi++;
             }
+
         });
+
     });
 
-    const jsaContainer = document.getElementById("jsa-container");
-    const jsaValue = document.getElementById("total-jsa-value");
-    const jsaBar = document.getElementById("jsa-progress-bar");
+    const persen = Math.round(
+        (totalSudahIsi / totalSemuaOrang) * 100
+    );
 
-    if (totalCount > 0) {
-        let rataRata = Math.min(Math.round(totalPersen / totalCount), 100);
+    document.getElementById("total-jsa-value").textContent =
+        persen + "%";
 
-        if (jsaValue) jsaValue.textContent = rataRata + "%";
-        if (jsaBar) jsaBar.style.width = rataRata + "%";
+    document.getElementById("jsa-progress-bar").style.width =
+        persen + "%";
 
-        if (jsaContainer) {
-            jsaContainer.style.display = "block";
-            jsaContainer.style.opacity = "0";
-            setTimeout(() => jsaContainer.style.opacity = "1", 50);
-        }
-    } else {
-        if (jsaContainer) jsaContainer.style.display = "none";
-    }
+    document.getElementById("jsa-filled").textContent =
+        totalSudahIsi + " Employee";
+
+    document.getElementById("jsa-total").textContent =
+        totalSemuaOrang + " Employee";
 }
-
