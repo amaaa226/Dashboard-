@@ -1,180 +1,1367 @@
-/* 1. RESET & BASE STYLES */
-* {
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+/* =========================
+   RESET & BASE
+========================= */
+
+*{
+    box-sizing:border-box;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
 }
 
-body {
-    /* Gradient yang lebih halus */
-    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 50%, #bfdbfe 100%);
-    color: #1e293b;
-    font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    margin: 0;
-    min-height: 100vh;
-    overflow-x: hidden;
+body{
+    margin:0;
+    min-height:100vh;
+    overflow-x:hidden;
+
+    font-family:'Inter','Segoe UI',sans-serif;
+
+    color:#1e293b;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eff6ff 0%,
+            #dbeafe 50%,
+            #bfdbfe 100%
+        );
 }
 
-/* 2. NAVIGATION BAR */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 1.5rem;
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:16px 24px;
+
+    background:
+        rgba(255,255,255,0.65);
+
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.3);
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.05);
 }
 
-.filters {
-    display: flex;
-    gap: 12px;
-    align-items: center;
+.filters{
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
-/* 3. LAYOUT & VIEW CONTROL */
-.view {
-    display: none;
-    padding: 24px;
-    max-width: 1400px; /* Membatasi lebar maksimal agar tidak terlalu melar di layar ultra-wide */
-    margin: 0 auto;
-    animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+/* =========================
+   VIEW
+========================= */
+
+.view{
+    display:none;
+
+    max-width:1400px;
+
+    margin:0 auto;
+    padding:24px;
+
+    animation:fadeIn .4s ease;
 }
 
-.view.active {
-    display: block;
+.view.active{
+    display:block;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* 4. CONTAINER & CARDS */
-/* Container untuk informasi teks/summary */
-.summary-card {
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05);
-    backdrop-filter: blur(4px);
-}
-
-/* 5. CHART SPECIFIC STYLES (THE SCROLL WINDOW) */
-.chart-container {
-    width: 100%;
-    height: calc(100vh - 250px); /* Tinggi otomatis menyesuaikan sisa layar */
-    min-height: 500px;
-    max-height: 800px; /* Batas atas agar tidak terlalu panjang */
-    overflow-y: auto;
-    overflow-x: hidden;
-    background: #0f172a; /* Biru sangat gelap (slate-900) untuk kontras grafik yang elegan */
-    border-radius: 20px;
-    padding: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
-/* Memastikan canvas tetap lebar penuh dan tingginya ditentukan oleh JS */
-canvas#chart-all {
-    width: 100% !important;
-    display: block;
-}
-
-/* 6. TYPOGRAPHY */
-h1, h2, h3 {
-    color: #1e3a8a;
-    margin-top: 0;
-    letter-spacing: -0.025em;
-}
-
-#homeSummary {
-    font-weight: 600;
-    display: flex;
-    gap: 15px;
-    font-size: 15px;
-    color: #475569;
-}
-
-/* 7. FORM ELEMENTS (DROPDOWN) */
-select {
-    padding: 10px 18px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    background: rgba(255, 255, 255, 0.9);
-    color: #1e293b;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    outline: none;
-    appearance: none; /* Menghilangkan arrow default */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='C19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 16px;
-    padding-right: 40px;
-}
-
-select:hover {
-    background-color: #ffffff;
-    border-color: #3b82f6;
-    transform: translateY(-1px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-}
-
-select:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-}
-
-/* 8. SCROLLBAR STYLING (Modern Slim Style) */
-.chart-container::-webkit-scrollbar {
-    width: 6px;
-}
-
-.chart-container::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.chart-container::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    transition: background 0.3s;
-}
-
-.chart-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.4);
-}
-
-/* 9. RESPONSIVE ADJUSTMENTS */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
     }
-    
-    .chart-container {
-        height: calc(100vh - 300px);
-        padding: 10px;
+
+    to{
+        opacity:1;
+        transform:translateY(0);
     }
 }
 
-.chart-container {
-    width: 100%;
-    height: 2000vh; /* Batasi tinggi box di layar (75% tinggi layar) */
-    overflow-y: auto; /* Munculkan scrollbar ke bawah */
-    overflow-x: hidden;
-    background: #1e293b;
-    border-radius: 12px;
-    padding: 10px;
+/* =========================
+   SUMMARY CARD
+========================= */
+
+.summary-card{
+    margin-bottom:24px;
+    padding:20px;
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,0.5);
+
+    border:
+        1px solid rgba(255,255,255,0.4);
+
+    backdrop-filter:blur(6px);
+
+    box-shadow:
+        0 8px 30px rgba(31,38,135,0.05);
+}
+
+/* =========================
+   CHART CONTAINER
+========================= */
+
+.chart-container{
+    width:100%;
+    height:75vh;
+
+    min-height:500px;
+    max-height:900px;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    padding:20px;
+
+    border-radius:24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0f172a,
+            #1e293b
+        );
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 20px 40px rgba(0,0,0,0.2);
+}
+
+canvas#chart-all{
+    width:100% !important;
+    display:block;
+}
+
+/* =========================
+   TYPOGRAPHY
+========================= */
+
+h1,h2,h3{
+    margin-top:0;
+
+    color:#1e3a8a;
+
+    letter-spacing:-0.02em;
+}
+
+#homeSummary{
+    display:flex;
+    gap:15px;
+
+    font-size:15px;
+    font-weight:600;
+
+    color:#475569;
+}
+
+/* =========================
+   SELECT
+========================= */
+
+select{
+    padding:10px 18px;
+    padding-right:42px;
+
+    border:none;
+    outline:none;
+
+    border-radius:12px;
+
+    font-size:14px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    color:#1e293b;
+
+    background-color:
+        rgba(255,255,255,0.9);
+
+    border:
+        1px solid rgba(255,255,255,0.8);
+
+    box-shadow:
+        0 4px 10px rgba(0,0,0,0.08);
+
+    transition:.25s ease;
+
+    appearance:none;
+
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+
+    background-repeat:no-repeat;
+    background-position:right 12px center;
+    background-size:16px;
+}
+
+select:hover{
+    transform:translateY(-1px);
+
+    border-color:#3b82f6;
+
+    background:#fff;
+}
+
+select:focus{
+    border-color:#3b82f6;
+
+    box-shadow:
+        0 0 0 4px rgba(59,130,246,0.15);
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+.chart-container::-webkit-scrollbar{
+    width:6px;
+}
+
+.chart-container::-webkit-scrollbar-track{
+    background:transparent;
+}
+
+.chart-container::-webkit-scrollbar-thumb{
+    border-radius:999px;
+
+    background:
+        rgba(255,255,255,0.2);
+}
+
+.chart-container::-webkit-scrollbar-thumb:hover{
+    background:
+        rgba(255,255,255,0.35);
+}
+
+/* =========================
+   JSA CONTAINER
+========================= */
+
+#jsa-container{
+    position:relative;
+
+    width:100%;
+    max-width:760px;
+
+    margin:30px auto;
+    padding:45px 35px;
+
+    overflow:hidden;
+
+    border-radius:32px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15,23,42,0.98),
+            rgba(30,41,59,0.98)
+        );
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(15px);
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,0.45),
+        0 0 35px rgba(59,130,246,0.12);
+
+    transition:.35s ease;
+}
+
+#jsa-container:hover{
+    transform:translateY(-5px);
+}
+
+/* =========================
+   GLOW EFFECT
+========================= */
+
+.jsa-glow{
+    position:absolute;
+
+    top:-120px;
+    right:-120px;
+
+    width:300px;
+    height:300px;
+
+    border-radius:50%;
+
+    background:
+        rgba(59,130,246,0.18);
+
+    filter:blur(90px);
+}
+
+/* =========================
+   TOP SECTION
+========================= */
+
+.jsa-top{
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+}
+
+.jsa-badge{
+    margin-bottom:18px;
+
+    padding:8px 20px;
+
+    border-radius:999px;
+
+    background:
+        rgba(59,130,246,0.12);
+
+    border:
+        1px solid rgba(96,165,250,0.25);
+
+    color:#93c5fd;
+
+    font-size:12px;
+    font-weight:800;
+
+    letter-spacing:2px;
+}
+
+.jsa-title{
+    color:white;
+
+    font-size:36px;
+    font-weight:900;
+
+    letter-spacing:1px;
+}
+
+.jsa-subtitle{
+    margin-top:10px;
+
+    color:
+        rgba(255,255,255,0.55);
+
+    font-size:15px;
+}
+
+/* =========================
+   CENTER RING
+========================= */
+
+.jsa-center{
+    display:flex;
+    justify-content:center;
+
+    margin-top:40px;
+}
+
+.jsa-ring{
+    width:250px;
+    height:250px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+        conic-gradient(
+            from 0deg,
+            #3b82f6,
+            #60a5fa,
+            #93c5fd,
+            #3b82f6
+        );
+
+    box-shadow:
+        0 0 45px rgba(59,130,246,0.35);
+
+    animation:spinRing 10s linear infinite;
+}
+
+.jsa-ring-inner{
+    width:195px;
+    height:195px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0f172a,
+            #1e293b
+        );
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+}
+
+#total-jsa-value{
+    font-size:72px;
+    font-weight:900;
+
+    color:white;
+
+    text-shadow:
+        0 0 25px rgba(255,255,255,0.15);
+}
+
+/* =========================
+   COUNT CARDS
+========================= */
+
+.jsa-count-wrap{
+    display:flex;
+    gap:20px;
+
+    margin-top:40px;
+}
+
+.jsa-count-card{
+    flex:1;
+
+    padding:24px;
+
+    border-radius:24px;
+
+    text-align:center;
+
+    background:
+        rgba(255,255,255,0.04);
+
+    border:
+        1px solid rgba(255,255,255,0.06);
+
+    transition:.3s ease;
+}
+
+.jsa-count-card:hover{
+    transform:translateY(-3px);
+
+    background:
+        rgba(255,255,255,0.06);
+}
+
+.count-label{
+    color:
+        rgba(255,255,255,0.55);
+
+    font-size:14px;
+}
+
+.count-value{
+    margin-top:10px;
+
+    color:white;
+
+    font-size:34px;
+    font-weight:900;
+}
+
+/* =========================
+   PROGRESS BAR
+========================= */
+
+.jsa-progress-track{
+    width:100%;
+    height:18px;
+
+    margin-top:40px;
+
+    overflow:hidden;
+
+    border-radius:999px;
+
+    background:
+        rgba(255,255,255,0.06);
+}
+
+#jsa-progress-bar{
+    width:0%;
+    height:100%;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #3b82f6,
+            #60a5fa
+        );
+
+    box-shadow:
+        0 0 25px rgba(59,130,246,0.45);
+
+    transition:width 1.2s ease;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes spinRing{
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    .navbar{
+        flex-direction:column;
+
+        gap:15px;
+
+        text-align:center;
+    }
+
+    .chart-container{
+        height:70vh;
+
+        padding:12px;
+    }
+
+    #jsa-container{
+        padding:35px 20px;
+    }
+
+    .jsa-title{
+        font-size:28px;
+    }
+
+    .jsa-ring{
+        width:210px;
+        height:210px;
+    }
+
+    .jsa-ring-inner{
+        width:165px;
+        height:165px;
+    }
+
+    #total-jsa-value{
+        font-size:56px;
+    }
+
+    .jsa-count-wrap{
+        flex-direction:column;
+    }
+}
+
+/* =========================
+   TOTAL ACHIEVEMENT HEADER
+========================= */
+
+#headerInfo{
+    position:relative;
+
+    margin-bottom:35px;
+    padding:40px 35px;
+
+    overflow:hidden;
+
+    border-radius:32px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.78),
+            rgba(255,255,255,0.58)
+        );
+
+    border:
+        1px solid rgba(255,255,255,0.6);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    box-shadow:
+        0 15px 40px rgba(30,64,175,0.10),
+        inset 0 1px 0 rgba(255,255,255,0.55);
+
+    text-align:center;
+
+    isolation:isolate;
+}
+
+/* glow background */
+#headerInfo::before{
+    content:"";
+
+    position:absolute;
+
+    top:-120px;
+    left:-120px;
+
+    width:260px;
+    height:260px;
+
+    border-radius:50%;
+
+    background:
+        rgba(59,130,246,0.18);
+
+    filter:blur(70px);
+
+    z-index:-1;
+}
+
+#headerInfo::after{
+    content:"";
+
+    position:absolute;
+
+    bottom:-140px;
+    right:-140px;
+
+    width:280px;
+    height:280px;
+
+    border-radius:50%;
+
+    background:
+        rgba(96,165,250,0.16);
+
+    filter:blur(80px);
+
+    z-index:-1;
+}
+
+/* department title */
+#judulDept{
+    margin:0;
+
+    font-size:18px;
+    font-weight:800;
+
+    letter-spacing:2px;
+    text-transform:uppercase;
+
+    color:#2563eb;
+
+    opacity:.9;
+}
+
+/* TOTAL ACHIEVEMENT */
+#headerInfo h3{
+    position:relative;
+
+    margin-top:18px;
+    margin-bottom:22px;
+
+    font-size:58px;
+    font-weight:1000;
+
+    line-height:1;
+
+    letter-spacing:-2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #1e3a8a,
+            #2563eb,
+            #60a5fa
+        );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    text-shadow:
+        0 10px 30px rgba(37,99,235,0.18);
+}
+
+/* garis bawah keren */
+#headerInfo h3::after{
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+    bottom:-12px;
+
+    transform:translateX(-50%);
+
+    width:120px;
+    height:6px;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #60a5fa
+        );
+
+    box-shadow:
+        0 0 20px rgba(59,130,246,0.35);
+}
+
+/* summary box */
+#homeSummary{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+
+    gap:18px;
+
+    margin-top:35px;
+}
+
+#homeSummary div{
+    min-width:180px;
+
+    padding:18px 24px;
+
+    border-radius:22px;
+
+    background:
+        rgba(255,255,255,0.62);
+
+    border:
+        1px solid rgba(255,255,255,0.7);
+
+    box-shadow:
+        0 10px 20px rgba(30,64,175,0.08);
+
+    font-size:15px;
+    font-weight:800;
+
+    color:#1e293b;
+
+    transition:.3s ease;
+}
+
+#homeSummary div:hover{
+    transform:translateY(-4px) scale(1.02);
+
+    box-shadow:
+        0 18px 30px rgba(30,64,175,0.14);
+}
+
+/* bulan */
+#judul-bulan{
+    margin-top:20px;
+
+    padding:12px 28px;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #3b82f6
+        );
+
+    color:white;
+
+    font-size:15px;
+    font-weight:800;
+
+    letter-spacing:1px;
+
+    box-shadow:
+        0 10px 25px rgba(37,99,235,0.25);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    #headerInfo{
+        padding:30px 20px;
+    }
+
+    #headerInfo h3{
+        font-size:42px;
+        line-height:1.1;
+    }
+
+    #homeSummary div{
+        width:100%;
+    }
+
+    #judul-bulan{
+        font-size:13px;
+    }
+}
+
+/* =========================
+   JSA CONTAINER PREMIUM COLOR
+========================= */
+
+#jsa-container{
+    position:relative;
+
+    width:100%;
+    max-width:920px;
+
+    margin:45px auto;
+
+    padding:50px 42px;
+
+    overflow:hidden;
+
+    border-radius:40px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #14001f 0%,
+            #1b0b3b 25%,
+            #111827 55%,
+            #051937 100%
+        );
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 30px 90px rgba(0,0,0,0.55),
+        0 0 80px rgba(168,85,247,0.14);
+
+    isolation:isolate;
+}
+
+/* =========================
+   BACKGROUND LIGHT EFFECT
+========================= */
+
+#jsa-container::before{
+    content:"";
+
+    position:absolute;
+
+    top:-180px;
+    left:-130px;
+
+    width:420px;
+    height:420px;
+
+    border-radius:50%;
+
+    background:
+        rgba(168,85,247,0.22);
+
+    filter:blur(110px);
+
+    z-index:-1;
+}
+
+#jsa-container::after{
+    content:"";
+
+    position:absolute;
+
+    right:-160px;
+    bottom:-200px;
+
+    width:450px;
+    height:450px;
+
+    border-radius:50%;
+
+    background:
+        rgba(59,130,246,0.18);
+
+    filter:blur(120px);
+
+    z-index:-1;
+}
+
+/* =========================
+   TOP SECTION
+========================= */
+
+.jsa-top{
+    text-align:center;
+}
+
+.jsa-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+
+    padding:10px 24px;
+
+    border-radius:999px;
+
+    background:
+        rgba(255,255,255,0.08);
+
+    border:
+        1px solid rgba(255,255,255,0.12);
+
+    backdrop-filter:blur(10px);
+
+    color:#f5d0fe;
+
+    font-size:12px;
+    font-weight:900;
+
+    letter-spacing:2px;
+
+    box-shadow:
+        0 0 25px rgba(236,72,153,0.18);
+}
+
+.jsa-badge::before{
+    content:"";
+
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+
+    background:#ec4899;
+
+    box-shadow:
+        0 0 18px #ec4899;
+}
+
+/* =========================
+   TITLE
+========================= */
+
+.jsa-title{
+    margin-top:28px;
+
+    font-size:58px;
+    font-weight:1000;
+
+    line-height:1;
+
+    letter-spacing:-2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #f0abfc,
+            #38bdf8,
+            #ffffff
+        );
+
+    background-size:300% auto;
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation:gradientMove 6s linear infinite;
+}
+
+.jsa-subtitle{
+    margin-top:15px;
+
+    color:
+        rgba(255,255,255,0.6);
+
+    font-size:16px;
+    font-weight:500;
+
+    letter-spacing:.5px;
+}
+
+/* =========================
+   CENTER SECTION
+========================= */
+
+.jsa-center{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:45px;
+
+    margin-top:55px;
+}
+
+/* =========================
+   MAIN RING
+========================= */
+
+.jsa-ring{
+    position:relative;
+
+    width:290px;
+    height:290px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+        conic-gradient(
+            from 0deg,
+            #ec4899,
+            #a855f7,
+            #3b82f6,
+            #06b6d4,
+            #ec4899
+        );
+
+    animation:spinRing 8s linear infinite;
+
+    box-shadow:
+        0 0 70px rgba(168,85,247,0.35);
+}
+
+.jsa-ring::before{
+    content:"";
+
+    position:absolute;
+
+    inset:16px;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            145deg,
+            #09090f,
+            #111827
+        );
+}
+
+.jsa-ring-inner{
+    position:relative;
+
+    width:205px;
+    height:205px;
+
+    border-radius:50%;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    background:
+        radial-gradient(
+            circle at top,
+            rgba(31,41,55,1),
+            rgba(3,7,18,1)
+        );
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+
+    z-index:2;
+
+    box-shadow:
+        inset 0 0 25px rgba(255,255,255,0.03);
+}
+
+.jsa-ring-inner::before{
+    content:"Achievement";
+
+    margin-bottom:10px;
+
+    color:
+        rgba(255,255,255,0.5);
+
+    font-size:14px;
+    font-weight:700;
+
+    letter-spacing:1px;
+}
+
+#total-jsa-value{
+    font-size:78px;
+    font-weight:1000;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            #f0abfc,
+            #93c5fd
+        );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    text-shadow:
+        0 0 25px rgba(255,255,255,0.15);
+}
+
+/* =========================
+   COUNT CARDS
+========================= */
+
+.jsa-count-wrap{
+    display:flex;
+    flex-direction:column;
+
+    gap:22px;
+
+    width:270px;
+}
+
+.jsa-count-card{
+    position:relative;
+
+    overflow:hidden;
+
+    padding:28px;
+
+    border-radius:28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.08),
+            rgba(255,255,255,0.03)
+        );
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(14px);
+
+    transition:.35s ease;
+}
+
+.jsa-count-card::before{
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:5px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ec4899,
+            #a855f7,
+            #38bdf8
+        );
+}
+
+.jsa-count-card:hover{
+    transform:translateY(-6px) scale(1.02);
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,0.3);
+}
+
+.count-label{
+    color:
+        rgba(255,255,255,0.55);
+
+    font-size:14px;
+    font-weight:700;
+
+    letter-spacing:.5px;
+}
+
+.count-value{
+    margin-top:12px;
+
+    font-size:44px;
+    font-weight:1000;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #c4b5fd,
+            #7dd3fc
+        );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+/* =========================
+   PROGRESS BAR
+========================= */
+
+.jsa-progress-track{
+    position:relative;
+
+    width:100%;
+    height:22px;
+
+    margin-top:50px;
+
+    overflow:hidden;
+
+    border-radius:999px;
+
+    background:
+        rgba(255,255,255,0.08);
+
+    box-shadow:
+        inset 0 2px 10px rgba(0,0,0,0.35);
+}
+
+#jsa-progress-bar{
+    position:relative;
+
+    width:0%;
+    height:100%;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ec4899,
+            #a855f7,
+            #3b82f6,
+            #06b6d4
+        );
+
+    background-size:300% auto;
+
+    animation:gradientMove 5s linear infinite;
+
+    box-shadow:
+        0 0 35px rgba(168,85,247,0.45);
+
+    transition:width 1.2s ease;
+}
+
+#jsa-progress-bar::after{
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    right:0;
+
+    width:90px;
+    height:100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.9),
+            transparent
+        );
+
+    animation:shine 2s linear infinite;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes spinRing{
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes shine{
+    from{
+        transform:translateX(-120px);
+    }
+
+    to{
+        transform:translateX(150px);
+    }
+}
+
+@keyframes gradientMove{
+    0%{
+        background-position:0% center;
+    }
+
+    100%{
+        background-position:300% center;
+    }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    #jsa-container{
+        padding:35px 22px;
+    }
+
+    .jsa-title{
+        font-size:40px;
+        line-height:1.1;
+    }
+
+    .jsa-ring{
+        width:240px;
+        height:240px;
+    }
+
+    .jsa-ring-inner{
+        width:170px;
+        height:170px;
+    }
+
+    #total-jsa-value{
+        font-size:58px;
+    }
+
+    .jsa-count-wrap{
+        width:100%;
+    }
+
+    .count-value{
+        font-size:36px;
+    }
 }
