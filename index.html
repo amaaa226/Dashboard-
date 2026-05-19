@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
-     <link rel="icon" type="image/png" href="dashboard.png">
+    <link rel="icon" type="image/png" href="dashboard.png">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -58,55 +58,78 @@
             </div>
         </div>
 
+        <div id="searchContainer" style="
+            display:none;
+            justify-content:flex-end;
+            margin-bottom:15px;">
+            <input type="text" id="searchInput" placeholder="Search nama..." style="
+                padding:10px 15px;
+                border-radius:8px;
+                border:none;
+                width:250px;" />
+        </div>
+
         <div id="chartbox" style="height: 310vh; overflow-y: auto; overflow-x: hidden; background: #1e293b;">
             <canvas id="chart-all"></canvas>
         </div>
     </div>
 
-    <div id="jsa-container" style="
-    text-align: center;
-    background: linear-gradient(135deg, #0f172a, #1e3a8a, #1e293b);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    <div id="jsa-container">
 
-    border: 1px solid rgba(96, 165, 250, 0.25);
+        <div class="jsa-glow"></div>
 
-    box-shadow:
-        0 8px 32px rgba(0, 0, 0, 0.45),
-        0 0 25px rgba(59, 130, 246, 0.25);
+        <div class="jsa-top">
+            <div class="jsa-badge">
+                LIVE MONITORING
+            </div>
 
-    padding: 30px;
-    margin: 20px auto;
-    border-radius: 20px;
+            <div class="jsa-title">
+                TOTAL ACHIEVEMENT JSA
+            </div>
 
-    max-width: 400px;
-
-    display: none;
-    transition: all 0.3s ease;">
-
-        <h3 style="color: rgba(255,255,255,0.8); 
-               margin-bottom: 15px; 
-               font-size: 14px; 
-               letter-spacing: 2px; 
-               text-transform: uppercase;
-               font-weight: 600;">
-            TOTAL ACHIEVEMENT JSA
-        </h3>
-
-        <div id="total-jsa-value" style="font-size: 64px; 
-                font-weight: 800; 
-                color: #fbbf24; 
-                text-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
-                line-height: 1;">
-            0%
+            <div class="jsa-subtitle">
+                Employee Completion Progress
+            </div>
         </div>
 
-        <!-- Progress Bar Kecil di bawah angka -->
-        <div
-            style="width: 100%; background: rgba(255,255,255,0.1); height: 6px; border-radius: 10px; margin-top: 20px; overflow: hidden;">
-            <div id="jsa-progress-bar"
-                style="width: 0%; height: 100%; background: #fbbf24; transition: width 1s ease-in-out;"></div>
+        <div class="jsa-center">
+
+            <div class="jsa-ring">
+                <div class="jsa-ring-inner">
+                    <div id="total-jsa-value">0%</div>
+                </div>
+            </div>
+
+            <div class="jsa-count-wrap">
+
+                <div class="jsa-count-card">
+                    <div class="count-label">
+                        Completed
+                    </div>
+
+                    <div id="jsa-filled" class="count-value">
+                        0
+                    </div>
+                </div>
+
+                <div class="jsa-count-card">
+                    <div class="count-label">
+                        Total Employee
+                    </div>
+
+                    <div id="jsa-total" class="count-value">
+                        0
+                    </div>
+                </div>
+
+            </div>
+
         </div>
+
+        <div class="jsa-progress-track">
+            <div id="jsa-progress-bar"></div>
+        </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
