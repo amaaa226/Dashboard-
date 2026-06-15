@@ -1,142 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <link rel="icon" type="image/png" href="dashboard.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard JSA</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-
 <body>
 
     <!-- NAVBAR -->
-    <div class="navbar">
-        <h2>Dashboard</h2>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <div class="brand-icon">📋</div>
+            <div>
+                <div class="brand-title">Dashboard JSA</div>
+                <div class="brand-sub">Job Safety Analysis Monitoring</div>
+            </div>
+        </div>
 
         <div class="filters">
-            <select id="bulan">
-                <option>April 2026</option>
-                <option>Mei 2026</option>
-                <option>Juni 2026</option>
-                <option>Juli 2026</option>
-                <option>Agustus 2026</option>
-            </select>
+            <div class="filter-group">
+                <label class="filter-label">Bulan</label>
+                <select id="bulan">
+                    <option value="april2026">April 2026</option>
+                    <option value="mei2026">Mei 2026</option>
+                    <option value="juni2026">Juni 2026</option>
+                    <option value="juli2026">Juli 2026</option>
+                    <option value="agustus2026">Agustus 2026</option>
+                </select>
+            </div>
 
-            <select id="divisi">
-                <option>All Divisi</option>
-                <option>Production Plant 1 Division</option>
-                <option>Corporate Supply Chain Management Division</option>
-                <option>Corporate Quality Division</option>
-                <option>Corporate Engineering Division</option>
-                <option>Corporate Research & Development Division</option>
-            </select>
+            <div class="filter-group">
+                <label class="filter-label">Divisi</label>
+                <select id="divisi">
+                    <option value="">All Divisi</option>
+                    <option value="Production Plant 1 Division">Production Plant 1 Division</option>
+                    <option value="Corporate Supply Chain Management Division">Corporate Supply Chain Management Division</option>
+                    <option value="Corporate Quality Division">Corporate Quality Division</option>
+                    <option value="Corporate Engineering Division">Corporate Engineering Division</option>
+                    <option value="Corporate Research & Development Division">Corporate Research &amp; Development Division</option>
+                </select>
+            </div>
 
-            <select id="deptSelect">
-                <option value="all">All Department</option>
-                <option value="manufacturing">Departement Manufacturing</option>
-                <option value="inventory">Departement Inventoryt & Warehouse Managemen</option>
-                <option value="quality">Departement Quality Control</option>
-                <option value="engineering">Departement Production Enguneering</option>
-                <option value="prototype">Departement Prototype & Testing</option>
-                <option value="corporate">Departement Corporate Product Research & Development Enginepartment</option>
-                <option value="ppc">Departement Production Planing & Controle</option>
-            </select>
+            <div class="filter-group">
+                <label class="filter-label">Departemen</label>
+                <select id="deptSelect">
+                    <option value="all">All Department</option>
+                </select>
+            </div>
         </div>
-    </div>
+    </nav>
 
-    <!-- DASHBOARD UTAMA -->
+    <!-- MAIN VIEW -->
     <div id="view-home" class="view active">
-        <div id="headerInfo">
-            <h2 id="judulDept"></h2>
-            <h3>Total Achievement</h3>
 
+        <!-- HEADER INFO -->
+        <div id="headerInfo">
+            <div class="header-top">
+                <div id="judulDept" class="dept-label">All Department</div>
+                <div id="judul-bulan" class="bulan-badge">APRIL 2026</div>
+            </div>
+            <div class="header-title">Total Achievement</div>
             <div id="homeSummary"></div>
-            <div style="position: relative; height: 60px; display:flex; justify-content:center; align-items:center;">
-                <h2 id="judul-bulan"></h2>
+        </div>
+
+        <!-- SEARCH (hanya untuk detail dept) -->
+        <div id="searchContainer">
+            <div class="search-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Cari nama karyawan..." />
             </div>
         </div>
 
-        <div id="searchContainer" style="
-            display:none;
-            justify-content:flex-end;
-            margin-bottom:15px;">
-            <input type="text" id="searchInput" placeholder="Search nama..." style="
-                padding:10px 15px;
-                border-radius:8px;
-                border:none;
-                width:250px;" />
-        </div>
-
-        <div id="chartbox" style="height: 310vh; overflow-y: auto; overflow-x: hidden; background: #1e293b;">
+        <!-- CHART BOX -->
+        <div id="chartbox">
             <canvas id="chart-all"></canvas>
         </div>
-    </div>
 
-    <div id="jsa-container">
+        <!-- JSA TOTAL ACHIEVEMENT WIDGET -->
+        <div id="jsa-container">
+            <div class="jsa-bg-blur bl1"></div>
+            <div class="jsa-bg-blur bl2"></div>
+            <div class="jsa-bg-blur bl3"></div>
 
-        <div class="jsa-glow"></div>
-
-        <div class="jsa-top">
-            <div class="jsa-badge">
-                LIVE MONITORING
-            </div>
-
-            <div class="jsa-title">
-                TOTAL ACHIEVEMENT JSA
-            </div>
-
-            <div class="jsa-subtitle">
-                Employee Completion Progress
-            </div>
-        </div>
-
-        <div class="jsa-center">
-
-            <div class="jsa-ring">
-                <div class="jsa-ring-inner">
-                    <div id="total-jsa-value">0%</div>
+            <div class="jsa-top">
+                <div class="jsa-badge">
+                    <span class="live-dot"></span>
+                    LIVE MONITORING
                 </div>
+                <div class="jsa-title">TOTAL ACHIEVEMENT JSA</div>
+                <div class="jsa-subtitle">Employee Completion Progress</div>
             </div>
 
-            <div class="jsa-count-wrap">
-
-                <div class="jsa-count-card">
-                    <div class="count-label">
-                        Completed
-                    </div>
-
-                    <div id="jsa-filled" class="count-value">
-                        0
+            <div class="jsa-center">
+                <div class="jsa-ring">
+                    <div class="jsa-ring-inner">
+                        <div class="ring-label">Achievement</div>
+                        <div id="total-jsa-value">0%</div>
                     </div>
                 </div>
 
-                <div class="jsa-count-card">
-                    <div class="count-label">
-                        Total Employee
+                <div class="jsa-count-wrap">
+                    <div class="jsa-count-card">
+                        <div class="card-icon">🏆</div>
+                        <div class="count-label">Completed</div>
+                        <div id="jsa-filled" class="count-value">0</div>
+                        <div class="count-sub">karyawan</div>
                     </div>
-
-                    <div id="jsa-total" class="count-value">
-                        0
+                    <div class="jsa-count-card">
+                        <div class="card-icon">🧑‍💼</div>
+                        <div class="count-label">Total Employee</div>
+                        <div id="jsa-total" class="count-value">0</div>
+                        <div class="count-sub">karyawan</div>
                     </div>
                 </div>
-
             </div>
 
-        </div>
-
-        <div class="jsa-progress-track">
-            <div id="jsa-progress-bar"></div>
+            <div class="progress-label-row">
+                <span>Progress Keseluruhan</span>
+                <span id="progress-pct-label">0%</span>
+            </div>
+            <div class="jsa-progress-track">
+                <div id="jsa-progress-bar"></div>
+            </div>
         </div>
 
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-    <script
-        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
     <script src="main.js"></script>
-
 </body>
-
 </html>
