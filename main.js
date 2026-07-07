@@ -3,18 +3,6 @@
 // ============================================================
 Chart.register(ChartDataLabels, window['chartjs-plugin-annotation']);
 
-
-
-
-
-
-
-
-
-
-
-
-
 const BULAN_CONFIG = {
     jan2026: { idx: 0, label: "JANUARI 2026", value: "jan2026" },
     feb2026: { idx: 1, label: "FEBRUARI 2026", value: "feb2026" },
